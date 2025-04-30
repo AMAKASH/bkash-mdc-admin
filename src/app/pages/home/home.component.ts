@@ -70,6 +70,8 @@ export class HomeComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
 
+    this.submissionService.resolveSubmissions();
+
     this.submissionService.approved_submissions.subscribe((submissions) => {
       this.OnTabChange();
     });
@@ -129,7 +131,13 @@ export class HomeComponent {
     this.shown_submissions = this.selectedList.slice(0, this.rows);
   }
 
-  setStatus(event: Event, submission: Submission, status: string) {
+  setStatus(event: Event, submission: Submission, status?: string) {
+    if (!status && submission.status === 'Approved') {
+      status = 'Shortlisted';
+    } else if (!status && submission.status === 'Shortlisted') {
+      status = 'Approved';
+    }
+
     this.submissionService.setStatus(submission, { status }).subscribe({
       next: (response) => {
         this.messageService.add({
@@ -140,6 +148,7 @@ export class HomeComponent {
         this.OnTabChange();
       },
       error: (err) => {
+        console.log(err);
         this.messageService.add({
           severity: 'error',
           summary: 'Submission Status Changed Failed',

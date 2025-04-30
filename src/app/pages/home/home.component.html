@@ -38,7 +38,8 @@
                       [lazyLoad]="staticAssetLink+submission.image_url" alt="heart" class="preview-image" />
                   </td>
                   <td class="icon-container">
-                    <img (click)="setStatus($event,submission,'Shortlisted')" src="../../../assets/images/heart.png"
+                    <img (click)="setStatus($event,submission)"
+                      src="{{ submission.status ==='Approved'?'../../../assets/images/heart-stroke.png': '../../../assets/images/heart.png' }}"
                       alt="heart" class="heart-icon" />
                   </td>
 

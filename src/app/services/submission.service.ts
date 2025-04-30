@@ -1,3 +1,4 @@
+import { safeJsonParse } from './../../../node_modules/typed-assert/src/index';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
@@ -32,6 +33,7 @@ export class SubmissionService {
               approved_submissions.push(submission);
               break;
             case 'Shortlisted':
+              approved_submissions.push(submission);
               shotlisted_submissions.push(submission);
               break;
             default:
@@ -46,39 +48,31 @@ export class SubmissionService {
   }
 
   setStatus(submission: Submission, payload: any) {
-    let old_list: Submission[] = [];
-    let old_subject: BehaviorSubject<Submission[]> = new BehaviorSubject<
-      Submission[]
-    >([]);
-    let new_subject: BehaviorSubject<Submission[]> = new BehaviorSubject<
-      Submission[]
-    >([]);
+    const approved_old_list = this.approved_submissions.getValue();
+    const approved_old_idx = approved_old_list.findIndex(
+      (s) => s._id == submission._id
+    );
 
-    if (submission.status == 'Approved') {
-      old_subject = this.approved_submissions;
-    } else if (submission.status == 'Shortlisted') {
-      old_subject = this.shortlisted_submissions;
-    }
+    const shortlisted_old_list = this.shortlisted_submissions.getValue();
+    const shortlisted_old_idx = shortlisted_old_list.findIndex(
+      (s) => s._id == submission._id
+    );
 
-    old_list = old_subject.getValue();
-
-    let old_idx = old_list.indexOf(submission);
+    console.log(approved_old_idx, shortlisted_old_idx);
 
     return this.http
       .put(`${this.submissionBaseURL}/${submission._id}`, payload)
       .pipe(
         tap((submission: any) => {
-          old_list.splice(old_idx, 1);
-          old_subject.next(old_list);
-
+          approved_old_list[approved_old_idx].status = submission.status;
           if (submission.status == 'Approved') {
-            new_subject = this.approved_submissions;
+            shortlisted_old_list.splice(shortlisted_old_idx, 1);
           } else if (submission.status == 'Shortlisted') {
-            new_subject = this.shortlisted_submissions;
+            shortlisted_old_list.unshift(submission);
           }
 
-          new_subject.getValue().unshift(submission);
-          new_subject.next(new_subject.value);
+          this.approved_submissions.next(approved_old_list);
+          this.shortlisted_submissions.next(shortlisted_old_list);
         })
       );
   }
