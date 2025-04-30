@@ -1,6 +1,7 @@
+@import "../../../theme/variables";
+
 section {
-  // background-color: #fff;
-  font-family: madiraReg;
+  font-family: $font-primary;
   font-style: normal;
   line-height: normal;
   height: 100dvh;
@@ -15,7 +16,6 @@ section {
 
     .left-container {
       width: 50%;
-
       height: 100%;
       .imgs-container {
         width: 100%;
@@ -26,11 +26,7 @@ section {
         justify-content: center;
         align-items: center;
         img {
-          width: 65%;
-
-          @media (max-width: 1200px) {
-            width: 75%;
-          }
+          width: 50%;
         }
       }
 
@@ -52,7 +48,7 @@ section {
         margin-top: 5rem;
         h1 {
           color: #000;
-          font-family: madiraReg;
+          font-family: $font-primary;
           font-size: 48px;
           font-style: normal;
           font-weight: 500;
@@ -67,81 +63,67 @@ section {
         margin-top: 5.5rem;
         max-width: 512px;
         width: 80%;
-        span {
-          color: #c8c8c8;
-          font-size: 20px;
+        label {
+          color: #344054;
+          font-family: $font-primary;
+          font-size: 0.875rem;
           font-style: normal;
-          font-weight: 350;
-          line-height: 24px; /* 120% */
-          display: block;
-          margin-bottom: 1rem;
+          font-weight: 500;
+          line-height: 1.25rem; /* 142.857% */
+          @media (min-width: 768px) {
+            font-size: 1rem;
+          }
         }
-      }
 
-      .otp-form {
-        margin-top: 3.125rem;
-        max-width: 550px;
-        width: 80%;
-        span {
+        input {
+          margin-top: 0.5rem;
+          width: 100%;
+          display: flex;
+          padding: 0.5rem 0.75rem;
+          align-items: center;
+          align-self: stretch;
+          border-radius: 0.5rem;
+          border: 1px solid var(--Gray-300, #d0d5dd);
+          background: var(--Base-White, #fff);
+          box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+          overflow: hidden;
           color: #000;
-          font-size: 24px;
+          font-family: $font-primary;
+          font-size: 1rem;
           font-style: normal;
-          font-weight: 350;
-          line-height: 24px; /* 120% */
-          display: block;
-          margin-bottom: 2.6rem;
+          font-weight: 400;
+          line-height: 1.25rem;
 
-          @media (max-width: 430px) {
-            font-size: 20px;
+          @media (min-width: 768px) {
+            font-size: 1rem;
           }
-        }
 
-        .resend-msg {
-          margin-bottom: 0;
-          margin-top: 3.125rem;
-          display: inline-block;
-          font-size: 18px;
-          @media (max-width: 550px) {
-            font-size: 14px;
+          &:focus,
+          &:active {
+            border: 1px solid #e2116e;
+            outline: none;
+            box-shadow: 0px 0px 4px rgba(226, 17, 110, 0.5);
           }
-        }
-        .resend-btn {
-          margin-left: 5px;
-          text-decoration: underline;
-          cursor: pointer;
-          @media (max-width: 430px) {
-            margin-left: 0px;
-            margin-top: 0rem;
-            display: block;
+
+          &::placeholder {
+            color: var(--Gray-400, #9ca3af);
+            font-family: $font-primary;
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.25rem;
+            @media (min-width: 768px) {
+              font-size: 1rem;
+            }
           }
         }
       }
-
       .button-area {
-        margin-top: 7.5rem;
+        margin-top: 2.5rem;
         max-width: 320px;
         display: flex;
         align-items: center;
         gap: 50px;
-        span {
-          text-decoration: underline;
-          cursor: pointer;
-          color: #000;
-          font-size: 18px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 48.185%;
-        }
-
-        button {
-          color: #fff;
-          font-size: 18px;
-          border-radius: 40px;
-          background: #000;
-          width: 120px;
-          height: 42px;
-          cursor: pointer;
-        }
 
         @media (max-width: 430px) {
           margin-top: 5rem;

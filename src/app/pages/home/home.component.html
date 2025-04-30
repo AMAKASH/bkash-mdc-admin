@@ -1,165 +1,57 @@
 <section>
+  <div class="bulk-button-container">
+    <button class="btn" (click)="downloadDataAction()">Download Data</button>
+    <button class="btn reversed" (click)="downloadImagesAction()"><span *ngIf="!loading">Download Shortlisted
+        Images</span>
+      <p-progressSpinner ariaLabel="loading" strokeWidth="6" *ngIf="loading" styleClass="spinner" /></button>
+  </div>
   <main>
     <div class="tab-container">
-      <p-tabView
-        styleClass="ngTabView"
-        [(activeIndex)]="activeIndex"
-        (activeIndexChange)="OnTabChange()"
-      >
-        <p-tabPanel>
-          <ng-template pTemplate="header">
-            <div class="tabHeaderContainer">
-              <span> Pending Submissions </span>
-              <p-badge [value]="pending.length" severity="secondary" />
-            </div>
-          </ng-template>
-          <div class="submission-card-container">
-            <ng-container *ngFor="let item of shown_submissions; let i = index">
-              <div class="submission-card">
-                <div class="info-action">
-                  <a [routerLink]="['/', item.status, i]">
-                    <div class="info">
-                      <div class="names">
-                        <h3 class="participant-name">
-                          {{ item.participant_display_name }}
-                        </h3>
-                        <h3 class="plating-title">{{ item.title }}</h3>
-                      </div>
-                      <div class="picture">
-                        <img
-                          src="{{ item.participant.image_link }}"
-                          alt="participant"
-                        />
-                      </div>
-                    </div>
-                  </a>
-                  <div class="info__meta">
-                    <h3 class="date">
-                      {{ item.createdAt | date : "MMM d, y h:mma" }}
-                    </h3>
-                    <h3 class="votes">VOTES: {{ item.votes }}</h3>
-                  </div>
-                  <div class="action-buttons">
-                    <button
-                      class="deny"
-                      (click)="setStatus($event, item, 'Archived')"
-                    >
-                      <span>Delete</span>
-                    </button>
-                    <button (click)="setStatus($event, item, 'Approved')"><span>Approve</span></button>
-                  </div>
-                </div>
-
-                <div class="img-tiles">
-                  <p-image
-                    src="{{ item.content[0] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[1] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[2] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[3] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <video
-                    autoplay
-                    muted
-                    loop
-                    [routerLink]="['/', item.status, i]"
-                  >
-                    <source src="{{ item.content[4] }}" type="video/mp4" />
-                  </video>
-                </div>
-              </div>
-            </ng-container>
-          </div>
-        </p-tabPanel>
+      <p-tabView styleClass="ngTabView" [(activeIndex)]="activeIndex" (activeIndexChange)="OnTabChange()">
         <p-tabPanel header="Approved Submissions">
           <ng-template pTemplate="header">
             <div class="tabHeaderContainer">
-              <span> Approved Submissions </span>
+              <span> Submissions </span>
               <p-badge [value]="approved.length" severity="secondary" />
             </div>
           </ng-template>
           <div class="submission-card-container">
-            <ng-container *ngFor="let item of shown_submissions; let i = index">
-              <div class="submission-card">
-                <div class="info-action">
-                  <a [routerLink]="['/', item.status, i]">
-                    <div class="info">
-                      <div class="names">
-                        <h3 class="participant-name">
-                          {{ item.participant_display_name }}
-                        </h3>
-                        <h3 class="plating-title">{{ item.title }}</h3>
-                      </div>
-                      <div class="picture">
-                        <img
-                          src="{{ item.participant.image_link }}"
-                          alt="participant"
-                        />
-                      </div>
-                    </div>
-                  </a>
-                  <div class="info__meta">
-                    <h3 class="date">
-                      {{ item.createdAt | date : "MMM d, y h:mma" }}
-                    </h3>
-                    <h3 class="votes">VOTES: {{ item.votes }}</h3>
-                  </div>
-                  <div class="action-buttons">
-                    <button
-                      class="deny"
-                      (click)="setStatus($event, item, 'Pending')"
-                    >
-                      <span>Reject</span>
-                    </button>
-                    <button (click)="setStatus($event, item, 'Shortlisted')"><span>Shortlist</span></button>
-                  </div>
-                </div>
+            <p-table [value]="shown_submissions" [tableStyle]="{ 'min-width': '50rem' }">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Sl.</th>
+                  <th>Name</th>
+                  <th>bKash Wallet</th>
+                  <th>Submitted Image</th>
+                  <th>Shortlist</th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-submission let-rowIndex="rowIndex">
+                <tr>
+                  <td>{{ rowIndex+1 }}</td>
+                  <td>{{ submission.name }}</td>
+                  <td>{{ submission.bkash_wallet_number }}</td>
+                  <td>
+                    <img (click)="openImage(staticAssetLink+submission.image_url)"
+                      src="../../../assets/images/placeholder/anim.gif"
+                      [lazyLoad]="staticAssetLink+submission.image_url" alt="heart" class="preview-image" />
+                  </td>
+                  <td class="icon-container">
+                    <img (click)="setStatus($event,submission,'Shortlisted')" src="../../../assets/images/heart.png"
+                      alt="heart" class="heart-icon" />
+                  </td>
 
-                <div class="img-tiles">
-                  <p-image
-                    src="{{ item.content[0] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[1] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[2] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[3] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <video
-                    autoplay
-                    muted
-                    loop
-                    [routerLink]="['/', item.status, i]"
-                  >
-                    <source src="{{ item.content[4] }}" type="video/mp4" />
-                  </video>
-                </div>
-              </div>
-            </ng-container>
+                  <td>
+                    <div class="btn-container">
+                      <button class="btn reversed"
+                        (click)="openImage(staticAssetLink+submission.image_url)">View</button>
+                      <button class="btn" (click)="download(submission)">Download</button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
           </div>
         </p-tabPanel>
         <p-tabPanel header="Shortlisted Submissions">
@@ -170,91 +62,59 @@
             </div>
           </ng-template>
           <div class="submission-card-container">
-            <ng-container *ngFor="let item of shown_submissions; let i = index">
-              <div class="submission-card">
-                <div class="info-action">
-                  <a [routerLink]="['/', item.status, i]">
-                    <div class="info">
-                      <div class="names">
-                        <h3 class="participant-name">
-                          {{ item.participant_display_name }}
-                        </h3>
-                        <h3 class="plating-title">{{ item.title }}</h3>
-                      </div>
-                      <div class="picture">
-                        <img
-                          src="{{ item.participant.image_link }}"
-                          alt="participant"
-                        />
-                      </div>
-                    </div>
-                  </a>
-                  <div class="info__meta">
-                    <h3 class="date">
-                      {{ item.createdAt | date : "MMM d, y h:mma" }}
-                    </h3>
-                    <h3 class="votes">VOTES: {{ item.votes }}</h3>
-                  </div>
-                  <div class="action-buttons">
-                    <button
-                      class="deny"
-                      (click)="setStatus($event, item, 'Approved')"
-                    >
-                      <span>Unlist</span>
-                    </button>
-                    
-                  </div>
-                </div>
+            <p-table [value]="shown_submissions" [tableStyle]="{ 'min-width': '50rem' }">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Sl.</th>
+                  <th>Name</th>
+                  <th>bKash Wallet</th>
+                  <th>Submitted Image</th>
+                  <th>Remove from shortlist</th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-submission let-rowIndex="rowIndex">
+                <tr>
+                  <td>{{ rowIndex+1 }}</td>
+                  <td>{{ submission.name }}</td>
+                  <td>{{ submission.bkash_wallet_number }}</td>
+                  <td>
+                    <img (click)="openImage(staticAssetLink+submission.image_url)"
+                      src="../../../assets/images/placeholder/anim.gif"
+                      [lazyLoad]="staticAssetLink+submission.image_url" alt="heart" class="preview-image" />
+                  </td>
+                  <td class="icon-container">
+                    <img (click)="setStatus($event,submission,'Approved')" src="../../../assets/images/remove.png"
+                      alt="heart" class="heart-icon" />
+                  </td>
 
-                <div class="img-tiles">
-                  <p-image
-                    src="{{ item.content[0] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[1] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[2] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <p-image
-                    src="{{ item.content[3] }}"
-                    [preview]="true"
-                    styleClass="ngPimage"
-                  />
-                  <video
-                    autoplay
-                    muted
-                    loop
-                    [routerLink]="['/', item.status, i]"
-                  >
-                    <source src="{{ item.content[4] }}" type="video/mp4" />
-                  </video>
-                </div>
-              </div>
-            </ng-container>
+                  <td>
+                    <div class="btn-container">
+                      <button class="btn reversed"
+                        (click)="openImage(staticAssetLink+submission.image_url)">View</button>
+                      <button class="btn" (click)="download(submission)">Download</button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
           </div>
         </p-tabPanel>
       </p-tabView>
     </div>
     <div class="pagination-container">
-      <p-paginator
-        [first]="first"
-        [rows]="rows"
-        [totalRecords]="totalRecords"
-        [showCurrentPageReport]="true"
-        (onPageChange)="onPageChange($any($event))"
-        currentPageReportTemplate="{first} - {last} of {totalRecords}"
-        [showPageLinks]="false"
-        [showFirstLastIcon]="false"
-      ></p-paginator>
+      <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords" [showCurrentPageReport]="true"
+        (onPageChange)="onPageChange($any($event))" currentPageReportTemplate="{first} - {last} of {totalRecords}"
+        [showPageLinks]="false" [showFirstLastIcon]="false"></p-paginator>
     </div>
   </main>
+
 </section>
 
 <p-toast styleClass="toastNG" position="bottom-right" />
+
+<div class="overlay" *ngIf="selectedImage" (click)="closeImage()">
+  <div class="img-container">
+    <img [src]="selectedImage" class="full-image" alt="overlay" />
+  </div>
+</div>

@@ -34,6 +34,9 @@ export class SubmissionService {
             case 'Shortlisted':
               shotlisted_submissions.push(submission);
               break;
+            default:
+              approved_submissions.push(submission);
+              break;
           }
         }
         this.approved_submissions.next(approved_submissions);
@@ -78,5 +81,14 @@ export class SubmissionService {
           new_subject.next(new_subject.value);
         })
       );
+  }
+
+  downloadShortListedImages() {
+    return this.http.get(
+      `${this.submissionBaseURL}/download-shortlisted-images`,
+      {
+        responseType: 'blob',
+      }
+    );
   }
 }

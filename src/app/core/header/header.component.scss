@@ -1,9 +1,9 @@
+@import "../../../theme/variables.scss";
 header {
   position: fixed;
-  font-family: madiraReg;
+  font-family: $font-primary;
   width: 100%;
   top: 0;
-  mix-blend-mode: difference;
 
   nav {
     ul {
@@ -17,24 +17,23 @@ header {
         list-style: none;
         a {
           font-size: 1.25rem;
-          color:white;
+          color: rgb(0, 0, 0);
           .logo {
             width: 10rem;
-            img{
+            img {
               width: 100%;
             }
           }
           &.logout {
-            mix-blend-mode: none;
-            color: #00ffeb;
+            color: rgb(255, 38, 0);
           }
         }
       }
 
-      li:first-child{
+      li:first-child {
         justify-self: start;
       }
-      li:last-child{
+      li:last-child {
         justify-self: end;
       }
     }

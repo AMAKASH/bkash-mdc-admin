@@ -5,7 +5,6 @@ import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Admin } from '../models/admin.model';
 
-
 interface AuthResponse {
   admin: {
     name: string;
@@ -20,7 +19,7 @@ export class AuthService {
   private authorizationBaseURL = '';
   user = new BehaviorSubject<Admin | null>(null);
   redirectedRoute: ActivatedRouteSnapshot | null = null;
-  overrideRedirectRoute: string | null  = null;
+  overrideRedirectRoute: string | null = null;
 
   constructor(private http: HttpClient, private router: Router) {
     if (environment.useProdAPI) {
@@ -31,7 +30,6 @@ export class AuthService {
 
     this.authorizationBaseURL += '/auth';
   }
-
 
   login(email: string, password: string) {
     return this.http
@@ -88,7 +86,7 @@ export class AuthService {
   }
 
   private handleAuthentication(responseData: AuthResponse) {
-    const expirationDuration = 30 * 24 * 60 * 60 * 1000;
+    const expirationDuration = 10 * 24 * 60 * 60 * 1000;
     const expirationDate = new Date(Date.now() + expirationDuration);
 
     const userData = responseData.admin;
@@ -104,6 +102,4 @@ export class AuthService {
     this.autoLogout(expirationDuration);
     localStorage.setItem('adminData', JSON.stringify(user));
   }
-
-
 }

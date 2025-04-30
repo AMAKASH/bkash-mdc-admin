@@ -2,7 +2,7 @@
   <main>
     <div class="left-container">
       <div class="imgs-container">
-        <img src="../../../assets/images/login/login-image.png" alt="Login Image" />
+        <img src="https://ik.imagekit.io/02vodkf4s/bkash_mothers_day/home-image.png" alt="img">
       </div>
     </div>
     <div class="right-container">
@@ -10,14 +10,14 @@
         <h1>Login to Admin Panel to access contents</h1>
       </div>
       <div class="input-form">
-        <span>Email</span>
-        <input pInputText type="email" [(ngModel)]="email"/>
+        <label for="email">Email</label>
+        <input pInputText type="email" [(ngModel)]="email" id="email" />
         <br><br>
-        <span>Password</span>
-        <input pInputText type="password" [(ngModel)]="password"/>
+        <label for="pass">Password</label>
+        <input pInputText type="password" [(ngModel)]="password" id="pass" />
         <p-messages styleClass="error-msg" key="error" />
         <div class="button-area">
-          <button (click)="LoginButtonAction()">Log In</button>
+          <button class="btn" (click)="LoginButtonAction()">Log In</button>
         </div>
       </div>
 
