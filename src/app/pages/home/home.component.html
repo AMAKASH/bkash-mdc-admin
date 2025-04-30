@@ -1,0 +1,260 @@
+<section>
+  <main>
+    <div class="tab-container">
+      <p-tabView
+        styleClass="ngTabView"
+        [(activeIndex)]="activeIndex"
+        (activeIndexChange)="OnTabChange()"
+      >
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <div class="tabHeaderContainer">
+              <span> Pending Submissions </span>
+              <p-badge [value]="pending.length" severity="secondary" />
+            </div>
+          </ng-template>
+          <div class="submission-card-container">
+            <ng-container *ngFor="let item of shown_submissions; let i = index">
+              <div class="submission-card">
+                <div class="info-action">
+                  <a [routerLink]="['/', item.status, i]">
+                    <div class="info">
+                      <div class="names">
+                        <h3 class="participant-name">
+                          {{ item.participant_display_name }}
+                        </h3>
+                        <h3 class="plating-title">{{ item.title }}</h3>
+                      </div>
+                      <div class="picture">
+                        <img
+                          src="{{ item.participant.image_link }}"
+                          alt="participant"
+                        />
+                      </div>
+                    </div>
+                  </a>
+                  <div class="info__meta">
+                    <h3 class="date">
+                      {{ item.createdAt | date : "MMM d, y h:mma" }}
+                    </h3>
+                    <h3 class="votes">VOTES: {{ item.votes }}</h3>
+                  </div>
+                  <div class="action-buttons">
+                    <button
+                      class="deny"
+                      (click)="setStatus($event, item, 'Archived')"
+                    >
+                      <span>Delete</span>
+                    </button>
+                    <button (click)="setStatus($event, item, 'Approved')"><span>Approve</span></button>
+                  </div>
+                </div>
+
+                <div class="img-tiles">
+                  <p-image
+                    src="{{ item.content[0] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[1] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[2] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[3] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    [routerLink]="['/', item.status, i]"
+                  >
+                    <source src="{{ item.content[4] }}" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Approved Submissions">
+          <ng-template pTemplate="header">
+            <div class="tabHeaderContainer">
+              <span> Approved Submissions </span>
+              <p-badge [value]="approved.length" severity="secondary" />
+            </div>
+          </ng-template>
+          <div class="submission-card-container">
+            <ng-container *ngFor="let item of shown_submissions; let i = index">
+              <div class="submission-card">
+                <div class="info-action">
+                  <a [routerLink]="['/', item.status, i]">
+                    <div class="info">
+                      <div class="names">
+                        <h3 class="participant-name">
+                          {{ item.participant_display_name }}
+                        </h3>
+                        <h3 class="plating-title">{{ item.title }}</h3>
+                      </div>
+                      <div class="picture">
+                        <img
+                          src="{{ item.participant.image_link }}"
+                          alt="participant"
+                        />
+                      </div>
+                    </div>
+                  </a>
+                  <div class="info__meta">
+                    <h3 class="date">
+                      {{ item.createdAt | date : "MMM d, y h:mma" }}
+                    </h3>
+                    <h3 class="votes">VOTES: {{ item.votes }}</h3>
+                  </div>
+                  <div class="action-buttons">
+                    <button
+                      class="deny"
+                      (click)="setStatus($event, item, 'Pending')"
+                    >
+                      <span>Reject</span>
+                    </button>
+                    <button (click)="setStatus($event, item, 'Shortlisted')"><span>Shortlist</span></button>
+                  </div>
+                </div>
+
+                <div class="img-tiles">
+                  <p-image
+                    src="{{ item.content[0] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[1] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[2] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[3] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    [routerLink]="['/', item.status, i]"
+                  >
+                    <source src="{{ item.content[4] }}" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Shortlisted Submissions">
+          <ng-template pTemplate="header">
+            <div class="tabHeaderContainer">
+              <span> Shortlisted Submissions </span>
+              <p-badge [value]="shortlisted.length" severity="secondary" />
+            </div>
+          </ng-template>
+          <div class="submission-card-container">
+            <ng-container *ngFor="let item of shown_submissions; let i = index">
+              <div class="submission-card">
+                <div class="info-action">
+                  <a [routerLink]="['/', item.status, i]">
+                    <div class="info">
+                      <div class="names">
+                        <h3 class="participant-name">
+                          {{ item.participant_display_name }}
+                        </h3>
+                        <h3 class="plating-title">{{ item.title }}</h3>
+                      </div>
+                      <div class="picture">
+                        <img
+                          src="{{ item.participant.image_link }}"
+                          alt="participant"
+                        />
+                      </div>
+                    </div>
+                  </a>
+                  <div class="info__meta">
+                    <h3 class="date">
+                      {{ item.createdAt | date : "MMM d, y h:mma" }}
+                    </h3>
+                    <h3 class="votes">VOTES: {{ item.votes }}</h3>
+                  </div>
+                  <div class="action-buttons">
+                    <button
+                      class="deny"
+                      (click)="setStatus($event, item, 'Approved')"
+                    >
+                      <span>Unlist</span>
+                    </button>
+                    
+                  </div>
+                </div>
+
+                <div class="img-tiles">
+                  <p-image
+                    src="{{ item.content[0] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[1] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[2] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <p-image
+                    src="{{ item.content[3] }}"
+                    [preview]="true"
+                    styleClass="ngPimage"
+                  />
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    [routerLink]="['/', item.status, i]"
+                  >
+                    <source src="{{ item.content[4] }}" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+    <div class="pagination-container">
+      <p-paginator
+        [first]="first"
+        [rows]="rows"
+        [totalRecords]="totalRecords"
+        [showCurrentPageReport]="true"
+        (onPageChange)="onPageChange($any($event))"
+        currentPageReportTemplate="{first} - {last} of {totalRecords}"
+        [showPageLinks]="false"
+        [showFirstLastIcon]="false"
+      ></p-paginator>
+    </div>
+  </main>
+</section>
+
+<p-toast styleClass="toastNG" position="bottom-right" />

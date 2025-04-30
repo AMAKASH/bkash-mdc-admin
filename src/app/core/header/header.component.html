@@ -1,0 +1,20 @@
+<header>
+  <nav>
+    <ul>
+      <li>
+        <a>
+          <div class="logo" [routerLink]="['/']">
+            <img src="../../../assets/images/logo/logo.png" alt="logo">
+          </div>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/']">Admin Panel</a>
+      </li>
+      <li>
+        <a class="logout" *ngIf="admin" (click)="logoutAction()">Log Out</a>
+        <a [routerLink]="['/','login']" *ngIf="!admin">Log In</a>
+      </li>
+    </ul>
+  </nav>
+</header>

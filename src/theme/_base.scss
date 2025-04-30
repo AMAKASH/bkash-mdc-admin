@@ -1,0 +1,62 @@
+@import "./variables";
+
+/*** 1. Defualt Css  ***/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  color: $color-black;
+  font-family: $font-primary;
+  font-style: normal;
+  font-weight: 500;
+  font-size: $font-dis-size;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+a {
+  display: block;
+  color: $color-black;
+  font-family: $font-primary;
+  text-decoration: none;
+  cursor: pointer;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  margin-bottom: 0px;
+}
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.container {
+  position: relative;
+  max-width: $container-max-width;
+  width: 90%;
+  display: block;
+  margin: auto;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 315px;
+  }
+}

@@ -1,0 +1,26 @@
+<section>
+  <main>
+    <div class="left-container">
+      <div class="imgs-container">
+        <img src="../../../assets/images/login/login-image.png" alt="Login Image" />
+      </div>
+    </div>
+    <div class="right-container">
+      <div class="title">
+        <h1>Login to Admin Panel to access contents</h1>
+      </div>
+      <div class="input-form">
+        <span>Email</span>
+        <input pInputText type="email" [(ngModel)]="email"/>
+        <br><br>
+        <span>Password</span>
+        <input pInputText type="password" [(ngModel)]="password"/>
+        <p-messages styleClass="error-msg" key="error" />
+        <div class="button-area">
+          <button (click)="LoginButtonAction()">Log In</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</section>

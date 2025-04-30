@@ -1,0 +1,42 @@
+header {
+  position: fixed;
+  font-family: madiraReg;
+  width: 100%;
+  top: 0;
+  mix-blend-mode: difference;
+
+  nav {
+    ul {
+      height: 3.75rem;
+      margin: 0 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      justify-items: center;
+      li {
+        list-style: none;
+        a {
+          font-size: 1.25rem;
+          color:white;
+          .logo {
+            width: 10rem;
+            img{
+              width: 100%;
+            }
+          }
+          &.logout {
+            mix-blend-mode: none;
+            color: #00ffeb;
+          }
+        }
+      }
+
+      li:first-child{
+        justify-self: start;
+      }
+      li:last-child{
+        justify-self: end;
+      }
+    }
+  }
+}

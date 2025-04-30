@@ -1,0 +1,59 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./theme/base";
+@import "./theme/fonts";
+@import "./theme/variables";
+
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 3.125rem;
+  background: #e2116e;
+  box-shadow: 0px 4px 13.8px 0px rgba(77, 77, 77, 0.25);
+  color: #fff;
+  text-align: center;
+  font-family: $font-primary;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem;
+  cursor: pointer;
+  border: 1px solid #e2116e;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #e2116e;
+  }
+
+  &:disabled,
+  &[disabled] {
+    background: #bdbdbd;
+    color: #747474;
+    border: 1px solid #bdbdbd;
+  }
+
+  &.reversed {
+    background: white;
+    color: #e2116e;
+  }
+}
+
+.pnemonic-container {
+  cursor: pointer;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+.tnc-link {
+  display: inline-block;
+  color: #eb3b8f;
+  font-family: $font-primary;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem; /* 171.429% */
+}
