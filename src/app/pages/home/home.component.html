@@ -1,9 +1,14 @@
 <section>
-  <div class="bulk-button-container">
-    <button class="btn" (click)="downloadDataAction()">Download Data</button>
-    <button class="btn reversed" (click)="downloadImagesAction()"><span *ngIf="!loading">Download Shortlisted
-        Images</span>
-      <p-progressSpinner ariaLabel="loading" strokeWidth="6" *ngIf="loading" styleClass="spinner" /></button>
+  <div class="top-panel">
+    <div class="textPanel">
+      <p>Total Number of Generated Image: <span>{{genImagesCount}}</span></p>
+    </div>
+    <div class="bulk-button-container">
+      <button class="btn" (click)="downloadDataAction()">Download Data</button>
+      <button class="btn reversed" (click)="downloadImagesAction()"><span *ngIf="!loading">Download Shortlisted
+          Images</span>
+        <p-progressSpinner ariaLabel="loading" strokeWidth="6" *ngIf="loading" styleClass="spinner" /></button>
+    </div>
   </div>
   <main>
     <div class="tab-container">
@@ -12,7 +17,7 @@
           <ng-template pTemplate="header">
             <div class="tabHeaderContainer">
               <span> Submissions </span>
-              <p-badge [value]="approved.length" severity="secondary" />
+              <p-badge [value]="approved.length+ ' ('+ uniqueSubmissions+')'" severity="secondary" />
             </div>
           </ng-template>
           <div class="submission-card-container">
@@ -23,13 +28,14 @@
                   <th>Name</th>
                   <th>bKash Wallet</th>
                   <th>Submitted Image</th>
+                  <th>Submission Time</th>
                   <th>Shortlist</th>
                   <th>Action</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-submission let-rowIndex="rowIndex">
                 <tr>
-                  <td>{{ rowIndex+1 }}</td>
+                  <td>{{ first +rowIndex+1 }}</td>
                   <td>{{ submission.name }}</td>
                   <td>{{ submission.bkash_wallet_number }}</td>
                   <td>
@@ -37,6 +43,7 @@
                       src="../../../assets/images/placeholder/anim.gif"
                       [lazyLoad]="staticAssetLink+submission.image_url" alt="heart" class="preview-image" />
                   </td>
+                  <td>{{ formatUTCToLocal(submission.createdAt.toString()) }}</td>
                   <td class="icon-container">
                     <img (click)="setStatus($event,submission)"
                       src="{{ submission.status ==='Approved'?'../../../assets/images/heart-stroke.png': '../../../assets/images/heart.png' }}"
@@ -70,13 +77,14 @@
                   <th>Name</th>
                   <th>bKash Wallet</th>
                   <th>Submitted Image</th>
+                  <th>Submission Time</th>
                   <th>Remove from shortlist</th>
                   <th>Action</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-submission let-rowIndex="rowIndex">
                 <tr>
-                  <td>{{ rowIndex+1 }}</td>
+                  <td>{{ first+rowIndex+1 }}</td>
                   <td>{{ submission.name }}</td>
                   <td>{{ submission.bkash_wallet_number }}</td>
                   <td>
@@ -84,6 +92,7 @@
                       src="../../../assets/images/placeholder/anim.gif"
                       [lazyLoad]="staticAssetLink+submission.image_url" alt="heart" class="preview-image" />
                   </td>
+                  <td>{{ formatUTCToLocal(submission.createdAt.toString()) }}</td>
                   <td class="icon-container">
                     <img (click)="setStatus($event,submission,'Approved')" src="../../../assets/images/remove.png"
                       alt="heart" class="heart-icon" />

@@ -10,6 +10,7 @@ export class SubmissionService {
   private readonly submissionBaseURL = '';
   approved_submissions = new BehaviorSubject<Submission[]>([]);
   shortlisted_submissions = new BehaviorSubject<Submission[]>([]);
+  unique_submissions = 0;
 
   constructor(private readonly http: HttpClient) {
     if (environment.useProdAPI) {
@@ -43,6 +44,10 @@ export class SubmissionService {
         }
         this.approved_submissions.next(approved_submissions);
         this.shortlisted_submissions.next(shotlisted_submissions);
+
+        this.unique_submissions = new Set(
+          submissions.map((s) => s.bkash_wallet_number)
+        ).size;
       },
     });
   }
@@ -84,5 +89,9 @@ export class SubmissionService {
         responseType: 'blob',
       }
     );
+  }
+
+  getAllGeneratedImages() {
+    return this.http.get(`${this.submissionBaseURL}/all-gen-images`);
   }
 }

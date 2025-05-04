@@ -48,13 +48,15 @@ export class HomeComponent {
   staticAssetLink = environment.staticURL;
   selectedImage: string | null = null;
 
-  totalRecords: number = 125;
+  totalRecords: number = 0;
   first: number = 0;
-  rows: number = 50;
+  rows: number = 100;
 
   shown_submissions: Submission[] = [];
 
   selectedList: Submission[] = [];
+
+  genImagesCount = 0;
 
   activeIndex = 0;
 
@@ -71,6 +73,10 @@ export class HomeComponent {
     //Add 'implements OnInit' to the class.
 
     this.submissionService.resolveSubmissions();
+    this.submissionService.getAllGeneratedImages().subscribe((result: any) => {
+      console.log(result);
+      this.genImagesCount = result.imageGenCount;
+    });
 
     this.submissionService.approved_submissions.subscribe((submissions) => {
       this.OnTabChange();
@@ -89,6 +95,10 @@ export class HomeComponent {
 
   get approved() {
     return this.submissionService.approved_submissions.getValue();
+  }
+
+  get uniqueSubmissions() {
+    return this.submissionService.unique_submissions;
   }
 
   get shortlisted() {
@@ -127,7 +137,7 @@ export class HomeComponent {
     }
 
     this.totalRecords = this.selectedList.length;
-    this.rows = Math.min(this.selectedList.length, 50);
+    this.rows = Math.min(this.selectedList.length, 100);
     this.shown_submissions = this.selectedList.slice(0, this.rows);
   }
 
@@ -176,10 +186,34 @@ export class HomeComponent {
         Name: submission.name,
         'bKash Wallet Number': submission.bkash_wallet_number,
         'Image Link': this.staticAssetLink + submission.image_url,
+        'submission Time': this.formatUTCToLocal(
+          submission.createdAt.toString()
+        ),
       });
     });
 
     return exportable_schemes;
+  }
+
+  formatUTCToLocal(utcString: string) {
+    const date = new Date(utcString);
+
+    const pad = (n: any) => n.toString().padStart(2, '0');
+
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+
+    let hours = date.getHours();
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // convert 0 to 12
+    const formattedHours = pad(hours);
+
+    return `${year}-${month}-${day} ${formattedHours}:${minutes}:${seconds} ${ampm}`;
   }
 
   downloadDataAction() {

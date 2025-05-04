@@ -2,6 +2,37 @@
 section {
   margin-top: 8.75rem;
   position: relative;
+
+  .top-panel {
+    width: 80%;
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .textPanel {
+      p {
+        font-weight: 400;
+        span {
+          font-weight: 500;
+          color: black;
+        }
+      }
+    }
+
+    .bulk-button-container {
+      justify-content: right;
+      align-items: center;
+      display: flex;
+      gap: 0.5rem;
+      z-index: 2;
+
+      .btn {
+        width: 15rem;
+      }
+    }
+  }
+
   main {
     z-index: 2;
     width: 80%;
@@ -37,21 +68,6 @@ section {
         gap: 0.5rem;
         flex-direction: column;
       }
-    }
-  }
-
-  .bulk-button-container {
-    justify-content: right;
-    align-items: center;
-    display: flex;
-    gap: 0.5rem;
-    z-index: 2;
-    width: 80%;
-    max-width: 1500px;
-    margin: 0 auto;
-
-    .btn {
-      width: 15rem;
     }
   }
 }
